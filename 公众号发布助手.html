@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>处理文档</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    #app {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 80%;
+        max-width: 600px;
+    }
+    textarea {
+        width: 100%;
+        height: 200px;
+        margin-bottom: 10px;
+        padding: 10px;
+        font-family: inherit;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: none;
+    }
+    label {
+        font-weight: bold;
+    }
+    input[type="number"] {
+        width: 50px;
+        margin-left: 5px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+    button {
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+<div id="app">
+    <h2>文本处理工具</h2>
+    <textarea id="input-text" placeholder="在此输入文本..."></textarea>
+    <div>
+        <label for="space-count">每段空格数量：</label>
+        <input type="number" id="space-count" value="6" min="1" max="20">
+    </div>
+    <button onclick="pasteText()">一键粘贴</button>
+    <button onclick="processText()">处理文本</button>
+    <button onclick="copyText()">复制处理内容</button>
+    <button onclick="clearText()">清空文本</button>
+</div>
+
+<script>
+    function processText() {
+        var inputText = document.getElementById('input-text').value;
+        var spaceCount = document.getElementById('space-count').value;
+        // 删除所有空格
+        var processedText = inputText.replace(/ /g, '');
+        // 按照段落分割文本
+        var paragraphs = processedText.split('\n');
+        // 在每个段落前添加指定数量的空格
+        var processedTextWithIndent = paragraphs.map(function(paragraph) {
+            return ' '.repeat(spaceCount) + paragraph;
+        }).join('\n');
+        alert('处理成功！待复制');
+        document.getElementById('input-text').value = processedTextWithIndent;
+    }
+
+    function copyText() {
+        var processedText = document.getElementById('input-text').value;
+        var tempInput = document.createElement("textarea");
+        tempInput.value = processedText;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert('已复制到剪贴板！');
+    }
+
+    function pasteText() {
+        navigator.clipboard.readText().then(function(text) {
+            document.getElementById('input-text').value = text;
+        }).catch(function(err) {
+            console.error('Failed to read clipboard contents: ', err);
+        });
+    }
+
+    function clearText() {
+        document.getElementById('input-text').value = '';
+    }
+
+    function openWebsites() {
+        window.open("https://www.21zui.com/cut.html#google_vignette");
+        window.open("https://xiumi.us/#/studio/papers");
+        window.open("https://mp.weixin.qq.com/");
+    }
+
+    // 在页面加载完成后自动打开网站
+    window.onload = function() {
+        openWebsites();
+    };
+</script>
+
+</body>
+</html>
